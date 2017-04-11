@@ -1,0 +1,7 @@
+
+&
+router.cisco.com2001:db8::123:12:1
+'
+router2.cisco.com2001:db8::123:12:2
+'
+router3.cisco.com2001:db8::123:33:3

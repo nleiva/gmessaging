@@ -1,0 +1,11 @@
+syntax = "proto3";
+package gproto;
+
+message Router {
+  string hostname = 1;
+  bytes IP = 2; 
+}
+
+message Routers {
+  repeated Router router = 1;
+}
