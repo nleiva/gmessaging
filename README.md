@@ -23,6 +23,7 @@ GPB and gRPC testing. Based off the example [here](https://github.com/google/pro
 ## Compiling your protocol buffers
 
 * `protoc --go_out=gproto router.proto` creates [gproto/router.pb.go](gproto/router.pb.go)
+* `protoc --go_out=plugins=grpc:gproto devices.proto` creates [gproto/devices.pb.go](gproto/devices.pb.go)
 
 ## Links
 
