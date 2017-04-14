@@ -1,0 +1,35 @@
+syntax = "proto3";
+package gproto;
+
+//Structs
+message Router {
+  string hostname = 1;
+  bytes IP = 2; 
+}
+
+message Routers {
+  repeated Router router = 1;
+}
+
+//Wrappers
+message GetAllRequest {}
+
+message GetByHostnameRequest {
+	bytes IP = 1; 
+}
+
+message RouterRequest {
+	Router router = 1;
+}
+
+message RouterResponse {
+	Router router = 1;
+}
+
+//Services
+service DeviceService {
+	rpc GetByHostname (GetByHostnameRequest) returns (Router);
+	rpc GetAll (GetAllRequest) returns (stream RouterResponse);
+	rpc Save (RouterRequest) returns (RouterResponse);
+	rpc SaveAll (stream RouterRequest) returns (stream RouterResponse);
+}
