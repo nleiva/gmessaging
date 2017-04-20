@@ -2,8 +2,7 @@
 
 GPB and gRPC testing. Based off the example [here](https://github.com/google/protobuf/tree/master/examples).
 
-Table of contents
-=================
+## Table of contents
 
 - [gmessaging](#gmessaging)
   * [Code Examples](#code-examples)
