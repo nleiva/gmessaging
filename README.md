@@ -1,10 +1,16 @@
 # gmessaging
 
-## Synopsis
-
 GPB and gRPC testing. Based off the example [here](https://github.com/google/protobuf/tree/master/examples).
 
-## Code Example
+Table of contents
+=================
+
+- [gmessaging](#gmessaging)
+  * [Code Examples](#code-examples)
+  * [Compiling your protocol buffers](#compiling-your-protocol-buffers)
+  * [Links](#links)
+
+## Code Examples
 
 * `add_router.go` takes a static router entry and adds it to [routers.data](routers.data). Example:
 
@@ -31,7 +37,7 @@ GPB and gRPC testing. Based off the example [here](https://github.com/google/pro
 	}
 ```
 
-* `data.go` assign values to different instances of our Routers struct. Example:
+* `data.go` assigns values to different instances of our Routers struct. Example:
 
 ```go
 var router = []*pb.Router{
@@ -42,6 +48,18 @@ var router = []*pb.Router{
 }
 
 routers := pb.Routers{router}
+```
+
+* `server.go` creates a Server that implements the [DeviceServiceServer](gproto/devices.pb.go#L256) interface
+
+```go
+type server struct{}
+
+func (s *server) GetByHostname(ctx context.Context,
+	in *pb.GetByHostnameRequest) (*pb.Router, error) {
+	return nil, nil
+}
+...
 ```
 
 ## Compiling your protocol buffers
