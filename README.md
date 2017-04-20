@@ -6,7 +6,7 @@ GPB and gRPC testing. Based off the example [here](https://github.com/google/pro
 
 ## Code Example
 
-* `add_router.go` takes a static router entry and adds it to [routers.data](routers.data).
+* `add_router.go` takes a static router entry and adds it to [routers.data](routers.data). Example:
 
 ```go
 	routers := &pb.Routers{}
@@ -19,6 +19,30 @@ GPB and gRPC testing. Based off the example [here](https://github.com/google/pro
 ```
 
 * `list_routers.go` reads [routers.data](routers.data) and prints it out.
+
+```go
+	in, err := ioutil.ReadFile(fname)
+	if err != nil {
+		log.Fatalln("Error reading file:", err)
+	}
+	routers := &pb.Routers{}
+	if err := proto.Unmarshal(in, routers); err != nil {
+		log.Fatalln("Failed to parse the routers file:", err)
+	}
+```
+
+* `data.go` assign values to different instances of our Routers struct. Example:
+
+```go
+var router = []*pb.Router{
+	&pb.Router{
+		Hostname: "router1.cisco.com",
+		IP:       []byte("2001:db8::111:11:1"),
+	},
+}
+
+routers := pb.Routers{router}
+```
 
 ## Compiling your protocol buffers
 
