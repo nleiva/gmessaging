@@ -1,7 +1,7 @@
 syntax = "proto3";
 package gproto;
 
-//Structs
+// GPB Structs
 message Router {
   string hostname = 1;
   bytes IP = 2; 
@@ -11,7 +11,7 @@ message Routers {
   repeated Router router = 1;
 }
 
-//Wrappers
+// Wrappers for gRPC messages
 message GetAllRequest {}
 
 message GetByHostnameRequest {
@@ -26,7 +26,7 @@ message RouterResponse {
   Router router = 1;
 }
 
-//Services
+// gRPC Services
 service DeviceService {
 	rpc GetByHostname (GetByHostnameRequest) returns (RouterResponse);
 	rpc GetAll (GetAllRequest) returns (stream RouterResponse);

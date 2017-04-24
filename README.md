@@ -50,7 +50,7 @@ var router = []*pb.Router{
 routers := pb.Routers{router}
 ```
 
-* `server.go` creates a Server that implements the [DeviceServiceServer](gproto/devices.pb.go#L256) interface
+* `server.go` creates a Server that implements the [DeviceServiceServer](gproto/devices.pb.go#L256) interface.
 
 ```go
 type server struct{}
@@ -64,13 +64,13 @@ func (s *server) GetByHostname(ctx context.Context,
 
 ## Compiling your protocol buffers
 
-* `protoc --go_out=gproto router.proto` creates [gproto/router.pb.go](gproto/router.pb.go)
-* `protoc --go_out=plugins=grpc:gproto devices.proto` creates [gproto/devices.pb.go](gproto/devices.pb.go)
+* `protoc --go_out=gproto devices.proto` only defines the GPB part, to read and write as demonstrated in [list_routers.go](list_routers.go) and [add_router.go](add_router.go).
+* `protoc --go_out=plugins=grpc:gproto devices.proto` adds the RPC services. It creates [gproto/devices.pb.go](gproto/devices.pb.go). You need this one to run the client and server below.
 
 ## Compiling the code
 
-* `go build -o client gclient/main.go`
-* `go build -o server gserver/*.go`
+* gRPC client: `go build -o client gclient/main.go`
+* gRPC server: `go build -o server gserver/*.go`
 
 ## Links
 
