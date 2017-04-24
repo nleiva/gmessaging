@@ -5,6 +5,8 @@ gRPC Server
 package main
 
 import (
+	"errors"
+	"fmt"
 	"log"
 	"net"
 
@@ -13,6 +15,7 @@ import (
 	"google.golang.org/grpc"
 	//"google.golang.org/grpc/reflection"
 	//"google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/metadata"
 )
 
 const (
@@ -31,8 +34,17 @@ const (
 type server struct{}
 
 func (s *server) GetByHostname(ctx context.Context,
-	in *pb.GetByHostnameRequest) (*pb.Router, error) {
-	return nil, nil
+	in *pb.GetByHostnameRequest) (*pb.RouterResponse, error) {
+	if md, ok := metadata.FromContext(ctx); ok {
+		fmt.Printf("Metadata reveived: %v\n", md)
+	}
+	for _, r := range routers1 {
+		if in.GetHostname() == r.Hostname {
+			return &pb.RouterResponse{Router: &r}
+		}
+
+	}
+	return nil, errors.New("Router not found")
 }
 
 func (s *server) GetAll(in *pb.GetAllRequest,
