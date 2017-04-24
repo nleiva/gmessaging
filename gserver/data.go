@@ -25,7 +25,7 @@ var routers1 = []*pb.Router{
 	},
 }
 
-func main() {
+func variables() {
 	//Individual pointers
 	r1 := &pb.Router{
 		Hostname: "router1.cisco.com",

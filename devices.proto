@@ -15,20 +15,20 @@ message Routers {
 message GetAllRequest {}
 
 message GetByHostnameRequest {
-	bytes IP = 1; 
+  string hostname = 1;
 }
 
 message RouterRequest {
-	Router router = 1;
+  Router router = 1;
 }
 
 message RouterResponse {
-	Router router = 1;
+  Router router = 1;
 }
 
 //Services
 service DeviceService {
-	rpc GetByHostname (GetByHostnameRequest) returns (Router);
+	rpc GetByHostname (GetByHostnameRequest) returns (RouterResponse);
 	rpc GetAll (GetAllRequest) returns (stream RouterResponse);
 	rpc Save (RouterRequest) returns (RouterResponse);
 	rpc SaveAll (stream RouterRequest) returns (stream RouterResponse);

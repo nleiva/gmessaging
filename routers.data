@@ -5,3 +5,5 @@
 router2.cisco.com2001:db8::123:12:2
 '
 router3.cisco.com2001:db8::123:33:3
+'
+router4.cisco.com2001:db8::123:44:4

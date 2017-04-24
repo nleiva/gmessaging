@@ -7,6 +7,7 @@ GPB and gRPC testing. Based off the example [here](https://github.com/google/pro
 - [gmessaging](#gmessaging)
   * [Code Examples](#code-examples)
   * [Compiling your protocol buffers](#compiling-your-protocol-buffers)
+  * [Compiling the code](#compiling-the-code)
   * [Links](#links)
 
 ## Code Examples
@@ -65,6 +66,11 @@ func (s *server) GetByHostname(ctx context.Context,
 
 * `protoc --go_out=gproto router.proto` creates [gproto/router.pb.go](gproto/router.pb.go)
 * `protoc --go_out=plugins=grpc:gproto devices.proto` creates [gproto/devices.pb.go](gproto/devices.pb.go)
+
+## Compiling the code
+
+* `go build -o client gclient/main.go`
+* `go build -o server gserver/*.go`
 
 ## Links
 

@@ -38,9 +38,10 @@ func (s *server) GetByHostname(ctx context.Context,
 	if md, ok := metadata.FromContext(ctx); ok {
 		fmt.Printf("Metadata reveived: %v\n", md)
 	}
+	//for _, r := range routers3.Router {
 	for _, r := range routers1 {
-		if in.GetHostname() == r.Hostname {
-			return &pb.RouterResponse{Router: &r}
+		if in.GetHostname() == r.GetHostname() {
+			return &pb.RouterResponse{Router: r}, nil
 		}
 
 	}
