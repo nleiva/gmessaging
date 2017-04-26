@@ -7,6 +7,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io"
 	"log"
 
 	pb "github.com/nleiva/gmessaging/gproto"
@@ -44,6 +45,8 @@ func main() {
 		SendMetadata(client)
 	case 2:
 		GetByHostname(client)
+	case 3:
+		GetAll(client)
 	}
 
 	// Contact the server and print out its response.
@@ -55,6 +58,23 @@ func main() {
 	// 	log.Fatalf("could not greet: %v", err)
 	// }
 	// log.Printf("Greeting: %s", r.Message)
+}
+
+func GetAll(client pb.DeviceServiceClient) {
+	stream, err := client.GetAll(context.Background(), &pb.GetAllRequest{})
+	if err != nil {
+		log.Fatalf("Server says: %v", err)
+	}
+	for {
+		res, err := stream.Recv()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			log.Fatalf("Server says: %v", err)
+		}
+		fmt.Println(res.GetRouter())
+	}
 }
 
 func GetByHostname(client pb.DeviceServiceClient) {

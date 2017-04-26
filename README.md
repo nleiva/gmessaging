@@ -12,7 +12,7 @@ GPB and gRPC testing. Based on the [protobuf examples](https://github.com/google
 
 ## Code Examples
 
-* [add_router.go](add_router.go)` takes a static router entry and adds it to [routers.data](routers.data). Example:
+* [add_router.go](add_router.go) takes a static router entry and adds it to [routers.data](routers.data). Example:
 
 ```go
 	routers := &pb.Routers{}

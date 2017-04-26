@@ -50,6 +50,9 @@ func (s *server) GetByHostname(ctx context.Context,
 
 func (s *server) GetAll(in *pb.GetAllRequest,
 	stream pb.DeviceService_GetAllServer) error {
+	for _, r := range routers3.Router {
+		stream.Send(&pb.RouterResponse{Router: r})
+	}
 	return nil
 }
 
