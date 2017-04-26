@@ -12,7 +12,7 @@ GPB and gRPC testing. Based on the [protobuf examples](https://github.com/google
 
 ## Code Examples
 
-* `add_router.go` takes a static router entry and adds it to [routers.data](routers.data). Example:
+* [add_router.go](add_router.go)` takes a static router entry and adds it to [routers.data](routers.data). Example:
 
 ```go
 	routers := &pb.Routers{}
@@ -24,20 +24,20 @@ GPB and gRPC testing. Based on the [protobuf examples](https://github.com/google
 	routers.Router = append(routers.Router, router)
 ```
 
-* `list_routers.go` reads [routers.data](routers.data) and prints it out.
+* [list_router.go](list_router.go) reads [routers.data](routers.data) and prints it out.
 
 ```go
-	in, err := ioutil.ReadFile(fname)
-	if err != nil {
-		log.Fatalln("Error reading file:", err)
-	}
-	routers := &pb.Routers{}
-	if err := proto.Unmarshal(in, routers); err != nil {
-		log.Fatalln("Failed to parse the routers file:", err)
-	}
+in, err := ioutil.ReadFile(fname)
+if err != nil {
+	log.Fatalln("Error reading file:", err)
+}
+routers := &pb.Routers{}
+if err := proto.Unmarshal(in, routers); err != nil {
+	log.Fatalln("Failed to parse the routers file:", err)
+}
 ```
 
-* `data.go` assigns values to different instances of our Routers struct. Example:
+* [data.go](data.go) assigns values to different instances of our `Routers` struct. Example:
 
 ```go
 var router = []*pb.Router{
@@ -50,7 +50,7 @@ var router = []*pb.Router{
 routers := pb.Routers{router}
 ```
 
-* `server.go` creates a Server that implements the [DeviceServiceServer](gproto/devices.pb.go#L256) interface.
+* [server.go](gserver/main.go) creates a Server that implements the [DeviceServiceServer](gproto/devices.pb.go#L256) interface.
 
 ```go
 type server struct{}
@@ -59,6 +59,19 @@ func (s *server) GetByHostname(ctx context.Context,
 	in *pb.GetByHostnameRequest) (*pb.Router, error) {
 	return nil, nil
 }
+...
+```
+
+* [client.go](gclient/main.go) creates a Client that creates a new [DeviceServiceClient](gproto/devices.pb.go#L165) type.
+
+```go
+conn, err := grpc.Dial(address, grpc.WithInsecure())
+if err != nil {
+	log.Fatalf("did not connect: %v", err)
+}
+defer conn.Close()
+
+client := pb.NewDeviceServiceClient(conn)
 ...
 ```
 

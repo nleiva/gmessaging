@@ -60,7 +60,7 @@ func main() {
 func GetByHostname(client pb.DeviceServiceClient) {
 	res, err := client.GetByHostname(context.Background(), &pb.GetByHostnameRequest{Hostname: "router1.cisco.com"})
 	if err != nil {
-		log.Fatalf("Could not read the hostname: %v", err)
+		log.Fatalf("Server says: %v", err)
 	}
 	fmt.Print(res.GetRouter())
 }
