@@ -6,8 +6,8 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
-	//"os"
 
 	pb "github.com/nleiva/gmessaging/gproto"
 	"golang.org/x/net/context"
@@ -42,6 +42,8 @@ func main() {
 	switch *option {
 	case 1:
 		SendMetadata(client)
+	case 2:
+		GetByHostname(client)
 	}
 
 	// Contact the server and print out its response.
@@ -53,6 +55,14 @@ func main() {
 	// 	log.Fatalf("could not greet: %v", err)
 	// }
 	// log.Printf("Greeting: %s", r.Message)
+}
+
+func GetByHostname(client pb.DeviceServiceClient) {
+	res, err := client.GetByHostname(context.Background(), &pb.GetByHostnameRequest{Hostname: "router1.cisco.com"})
+	if err != nil {
+		log.Fatalf("Could not read the hostname: %v", err)
+	}
+	fmt.Print(res.GetRouter())
 }
 
 func SendMetadata(client pb.DeviceServiceClient) {

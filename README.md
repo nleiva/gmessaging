@@ -1,6 +1,6 @@
 # gmessaging
 
-GPB and gRPC testing. Based off the example [here](https://github.com/google/protobuf/tree/master/examples).
+GPB and gRPC testing. Based on the [protobuf examples](https://github.com/google/protobuf/tree/master/examples) and [Pluralsight](https://www.pluralsight.com/) training.
 
 ## Table of contents
 
