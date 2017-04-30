@@ -14,8 +14,7 @@ import (
 	pb "github.com/nleiva/gmessaging/gproto"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
-	//"google.golang.org/grpc/reflection"
-	//"google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/metadata"
 )
 
@@ -90,15 +89,16 @@ func main() {
 	}
 
 	// Security options
-	// creds, err := credentials.NewClientTLSFromFile("cert.pem", "key.pem")
-	// if err != nil {
-	// 	log.Fatalf(err)
-	// }
-	// opts := []grpc.ServerOption{grpc.ServerOption{grpc.Creds(creds)}
-	// s := grpc.NewServer(opts...)
+	creds, err := credentials.NewServerTLSFromFile("cert.pem", "key.pem")
+	if err != nil {
+		log.Fatalf("Failed to setup tls: %v", err)
+	}
+	opts := []grpc.ServerOption{grpc.Creds(creds)}
+	// Setup a secure Server
+	s := grpc.NewServer(opts...)
 
-	// Insecure Server
-	s := grpc.NewServer()
+	// Setup an insecure Server
+	//s := grpc.NewServer()
 
 	pb.RegisterDeviceServiceServer(s, new(server))
 	log.Println("Starting server on port " + port)

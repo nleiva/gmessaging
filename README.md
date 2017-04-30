@@ -128,10 +128,13 @@ hostname:"router9.cisco.com" IP:"2001:db8::999:99:9"
 This is optional in order to generate secure connections. We create a new private key 'key.pem' and a server certificate 'cert.pem'
 
 ```bash
-$ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout key.pem -out cert.pem
-Generating a 2048 bit RSA private key
-...
-Common Name (e.g. server FQDN or YOUR name) []:localhost:50051
+$ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes -subj '/CN=localhost'
+Generating a 4096 bit RSA private key
+................................++
+.....................................................++
+writing new private key to 'key.pem'
+-----
+$ 
 ```
 
 ## Links
@@ -141,3 +144,4 @@ Common Name (e.g. server FQDN or YOUR name) []:localhost:50051
 * [Protocol Buffer Basics: Go](https://developers.google.com/protocol-buffers/docs/gotutorial)
 * [Using protocol buffers with Go](https://github.com/golang/protobuf#using-protocol-buffers-with-go)
 * [Using Go to generate Certs and Private Keys](http://www.kaihag.com/https-and-go/)
+* [Authentication in gRPC](http://mycodesmells.com/post/authentication-in-grpc)

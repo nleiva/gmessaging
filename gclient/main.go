@@ -13,6 +13,7 @@ import (
 	pb "github.com/nleiva/gmessaging/gproto"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/metadata"
 )
 
@@ -24,15 +25,16 @@ func main() {
 	option := flag.Int("o", 1, "Command to run")
 	flag.Parse()
 	// Security options
-	// creds, err := credentials.NewClientTLSFromFile("cert.pem", "")
-	// if err != nil {
-	// 	log.Fatalf(err)
-	// }
-	// opts := []grpc.DialOption{grpc.WithTransportCredentials(creds)}
-	// s := grpc.NewServer(opts...)
-	// conn, err := grpc.Dial(address, opts...)
-	//Set up a connection to the server.
-	conn, err := grpc.Dial(address, grpc.WithInsecure())
+	creds, err := credentials.NewClientTLSFromFile("cert.pem", "")
+	if err != nil {
+		log.Fatalf("could not process the credentials: %v", err)
+	}
+	opts := []grpc.DialOption{grpc.WithTransportCredentials(creds)}
+	// Set up a secure connection to the server.
+	conn, err := grpc.Dial(address, opts...)
+
+	// Set up an insecure connection to the server.
+	//conn, err := grpc.Dial(address, grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
