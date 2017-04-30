@@ -91,18 +91,18 @@ client := pb.NewDeviceServiceClient(conn)
 * Examples are pretty static for now. The client just executes a method based on the arguments the command line provides.
 
 ```go
-	switch *option {
-	case 1:
-		SendMetadata(client)
-	case 2:
-		GetByHostname(client)
-	case 3:
-		GetAll(client)
-	case 4:
-		Save(client)
-	case 5:
-		SaveAll(client)
-	}
+switch *option {
+case 1:
+	SendMetadata(client)
+case 2:
+	GetByHostname(client)
+case 3:
+	GetAll(client)
+case 4:
+	Save(client)
+case 5:
+	SaveAll(client)
+}
 ```
 * SaveAll looks like this, the client prints the devices it wants to add and the server prints the new complete list.
 
