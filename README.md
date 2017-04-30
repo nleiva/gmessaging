@@ -8,6 +8,7 @@ GPB and gRPC testing. Based on the [protobuf examples](https://github.com/google
   * [Code Examples](#code-examples)
   * [Compiling your protocol buffers](#compiling-your-protocol-buffers)
   * [Compiling the code](#compiling-the-code)
+  * [Running some examples](#running-some-examples)
   * [Links](#links)
 
 ## Code Examples
@@ -84,6 +85,42 @@ client := pb.NewDeviceServiceClient(conn)
 
 * gRPC client: `go build -o client gclient/main.go`
 * gRPC server: `go build -o server gserver/*.go`
+
+## Running some examples
+
+* Examples are pretty static for now. The client just executes a method based on the arguments the command line provides.
+
+```go
+	switch *option {
+	case 1:
+		SendMetadata(client)
+	case 2:
+		GetByHostname(client)
+	case 3:
+		GetAll(client)
+	case 4:
+		Save(client)
+	case 5:
+		SaveAll(client)
+	}
+```
+* SaveAll looks like this, the client prints the devices it wants to add and the server prints the new complete list.
+
+```bash
+$ ./client -o 5
+hostname:"router8.cisco.com" IP:"2001:db8::888:88:8" 
+hostname:"router9.cisco.com" IP:"2001:db8::999:99:9" 
+```
+
+```bash
+$ ./server
+2017/04/29 20:27:35 Starting server on port :50051
+hostname:"router1.cisco.com" IP:"2001:db8::111:11:1" 
+hostname:"router2.cisco.com" IP:"2001:db8::222:22:2" 
+hostname:"router3.cisco.com" IP:"2001:db8::333:33:3" 
+hostname:"router8.cisco.com" IP:"2001:db8::888:88:8" 
+hostname:"router9.cisco.com" IP:"2001:db8::999:99:9"
+```
 
 ## Links
 
