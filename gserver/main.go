@@ -58,7 +58,11 @@ func (s *server) GetAll(in *pb.GetAllRequest,
 
 func (s *server) Save(ctx context.Context,
 	in *pb.RouterRequest) (*pb.RouterResponse, error) {
-	return nil, nil
+	routers1 = append(routers1, in.Router)
+	for _, r := range routers1 {
+		fmt.Println(r)
+	}
+	return &pb.RouterResponse{Router: in.Router}, nil
 }
 
 func (s *server) SaveAll(stream pb.DeviceService_SaveAllServer) error {

@@ -48,6 +48,8 @@ func main() {
 	case 3:
 		GetAll(client)
 	case 4:
+		Save(client)
+	case 5:
 		SaveAll(client)
 	}
 }
@@ -93,6 +95,18 @@ func SaveAll(client pb.DeviceServiceClient) {
 	stream.CloseSend()
 	<-doneCh
 
+}
+
+func Save(client pb.DeviceServiceClient) {
+	router := &pb.Router{
+		Hostname: "router7.cisco.com",
+		IP:       []byte("2001:db8::777:77:7"),
+	}
+	res, err := client.Save(context.Background(), &pb.RouterRequest{Router: router})
+	if err != nil {
+		log.Fatalf("Server says: %v", err)
+	}
+	fmt.Println(res.GetRouter())
 }
 
 func GetAll(client pb.DeviceServiceClient) {
