@@ -9,6 +9,7 @@ GPB and gRPC testing. Based on the [protobuf examples](https://github.com/google
   * [Compiling your protocol buffers](#compiling-your-protocol-buffers)
   * [Compiling the code](#compiling-the-code)
   * [Running some examples](#running-some-examples)
+  * [Generating Server Certificate and Private Key](#generating-server-certificates-and-private-key)
   * [Links](#links)
 
 ## Code Examples
@@ -122,9 +123,21 @@ hostname:"router8.cisco.com" IP:"2001:db8::888:88:8"
 hostname:"router9.cisco.com" IP:"2001:db8::999:99:9"
 ```
 
+## Generating Server Certificate and Private Key
+
+This is optional in order to generate secure connections. We create a new private key 'key.pem' and a server certificate 'cert.pem'
+
+```bash
+$ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout key.pem -out cert.pem
+Generating a 2048 bit RSA private key
+...
+Common Name (e.g. server FQDN or YOUR name) []:localhost:50051
+```
+
 ## Links
 
 * [Sublime Protobuf Syntax Hightlighting](https://packagecontrol.io/packages/Protobuf%20Syntax%20Hightlighting)
 * [proto3 Language Guide](https://developers.google.com/protocol-buffers/docs/proto3)
 * [Protocol Buffer Basics: Go](https://developers.google.com/protocol-buffers/docs/gotutorial)
 * [Using protocol buffers with Go](https://github.com/golang/protobuf#using-protocol-buffers-with-go)
+* [Using Go to generate Certs and Private Keys](http://www.kaihag.com/https-and-go/)
