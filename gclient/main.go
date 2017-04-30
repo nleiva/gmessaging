@@ -47,17 +47,52 @@ func main() {
 		GetByHostname(client)
 	case 3:
 		GetAll(client)
+	case 4:
+		SaveAll(client)
 	}
+}
 
-	// Contact the server and print out its response.
-	// if len(os.Args) > 1 {
-	// 	name = os.Args[1]
-	// }
-	// r, err := c.SayHello(context.Background(), &pb.HelloRequest{Name: name})
-	// if err != nil {
-	// 	log.Fatalf("could not greet: %v", err)
-	// }
-	// log.Printf("Greeting: %s", r.Message)
+func SaveAll(client pb.DeviceServiceClient) {
+	routers := []*pb.Router{
+		&pb.Router{
+			Hostname: "router8.cisco.com",
+			IP:       []byte("2001:db8::888:88:8"),
+		},
+		&pb.Router{
+			Hostname: "router9.cisco.com",
+			IP:       []byte("2001:db8::999:99:9"),
+		},
+	}
+	stream, err := client.SaveAll(context.Background())
+	if err != nil {
+		log.Fatalf("Server says: %v", err)
+	}
+	// Signal when we are done receiving messages back from server with a channel
+	doneCh := make(chan struct{})
+	// Handle received messages using a Go routine
+	go func() {
+		for {
+			response, err := stream.Recv()
+			if err == io.EOF {
+				doneCh <- struct{}{}
+				break
+			}
+			if err != nil {
+				log.Fatal(err)
+			}
+			fmt.Println(response.Router)
+		}
+	}()
+	// Send messages on main thread
+	for _, r := range routers {
+		err := stream.Send(&pb.RouterRequest{Router: r})
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+	stream.CloseSend()
+	<-doneCh
+
 }
 
 func GetAll(client pb.DeviceServiceClient) {

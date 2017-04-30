@@ -7,6 +7,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"io"
 	"log"
 	"net"
 
@@ -38,7 +39,6 @@ func (s *server) GetByHostname(ctx context.Context,
 	if md, ok := metadata.FromContext(ctx); ok {
 		fmt.Printf("Metadata reveived: %v\n", md)
 	}
-	//for _, r := range routers3.Router {
 	for _, r := range routers1 {
 		if in.GetHostname() == r.GetHostname() {
 			return &pb.RouterResponse{Router: r}, nil
@@ -62,6 +62,20 @@ func (s *server) Save(ctx context.Context,
 }
 
 func (s *server) SaveAll(stream pb.DeviceService_SaveAllServer) error {
+	for {
+		router, err := stream.Recv()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			return err
+		}
+		routers1 = append(routers1, router.Router)
+		stream.Send(&pb.RouterResponse{Router: router.Router})
+	}
+	for _, r := range routers1 {
+		fmt.Println(r)
+	}
 	return nil
 }
 
@@ -82,12 +96,8 @@ func main() {
 	// Insecure Server
 	s := grpc.NewServer()
 
-	//pb.RegisterGreeterServer(s, &server{})
 	pb.RegisterDeviceServiceServer(s, new(server))
 	log.Println("Starting server on port " + port)
-
-	// Register reflection service on gRPC server.
-	//reflection.Register(s)
 
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
