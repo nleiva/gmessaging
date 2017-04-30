@@ -143,5 +143,6 @@ $
 * [proto3 Language Guide](https://developers.google.com/protocol-buffers/docs/proto3)
 * [Protocol Buffer Basics: Go](https://developers.google.com/protocol-buffers/docs/gotutorial)
 * [Using protocol buffers with Go](https://github.com/golang/protobuf#using-protocol-buffers-with-go)
+* [gRPC Basics - Go](http://www.grpc.io/docs/tutorials/basic/go.html)
 * [Using Go to generate Certs and Private Keys](http://www.kaihag.com/https-and-go/)
 * [Authentication in gRPC](http://mycodesmells.com/post/authentication-in-grpc)
