@@ -9,7 +9,7 @@ GPB and gRPC testing. Based on the [protobuf examples](https://github.com/google
   * [Compiling your protocol buffers](#compiling-your-protocol-buffers)
   * [Compiling the code](#compiling-the-code)
   * [Running some examples](#running-some-examples)
-  * [Generating Server Certificate and Private Key](#generating-server-certificates-and-private-key)
+  * [Generating Server Certificate and Private Key](#generating-server-certificate-and-private-key)
   * [Links](#links)
 
 ## Code Examples
