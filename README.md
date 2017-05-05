@@ -1,4 +1,4 @@
-# gmessaging
+# gRPC and GPB for Networking Engineers
 
 GPB and gRPC testing. Based on the [protobuf examples](https://github.com/google/protobuf/tree/master/examples) and [Pluralsight](https://www.pluralsight.com/) training.
 
@@ -232,3 +232,6 @@ $
 * [gRPC Basics - Go](http://www.grpc.io/docs/tutorials/basic/go.html)
 * [Using Go to generate Certs and Private Keys](http://www.kaihag.com/https-and-go/)
 * [Authentication in gRPC](http://mycodesmells.com/post/authentication-in-grpc)
+* [Use cases for gRPC in network management](https://tools.ietf.org/html/draft-talwar-rtgwg-grpc-use-cases)
+* [gRPC Network Management Interface (gNMI)](https://tools.ietf.org/html/draft-openconfig-rtgwg-gnmi-spec)
+* [Network Management Datastore Architecture](https://datatracker.ietf.org/doc/html/draft-ietf-netmod-revised-datastores)
