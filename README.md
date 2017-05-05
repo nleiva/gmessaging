@@ -7,6 +7,7 @@ GPB and gRPC testing. Based on the [protobuf examples](https://github.com/google
 - [gmessaging](#gmessaging)
   * [Code Examples](#code-examples)
   * [Compiling your protocol buffers](#compiling-your-protocol-buffers)
+  * [Understanding GPB encoding](#understanding-gpb-encoding)
   * [Compiling the code](#compiling-the-code)
   * [Running some examples](#running-some-examples)
   * [Generating Server Certificate and Private Key](#generating-server-certificate-and-private-key)
@@ -82,6 +83,92 @@ client := pb.NewDeviceServiceClient(conn)
 * `protoc --go_out=gproto devices.proto` only defines the GPB part, to read and write as demonstrated in [list_routers.go](list_routers.go) and [add_router.go](add_router.go).
 * `protoc --go_out=plugins=grpc:gproto devices.proto` adds the RPC services. It creates [gproto/devices.pb.go](gproto/devices.pb.go). You need this one to run the client and server below.
 
+## Understanding GPB encoding
+
+Let's print out the GPB encoded slice of bytes
+
+```go
+out, err := proto.Marshal(routers)
+if err != nil {
+	log.Fatalln("Failed to encode routers:", err)
+}
+fmt.Printf("%X", out)
+```
+
+After grouping the output for convenience, we get something like:
+
+```hexdump
+0A 26 0A 10 72 6F 75 74 65 72 2E 63 69 73 63 6F 2E 63 6F 6D
+12 12 32 30 30 31 3A 64 62 38 3A 3A 31 32 33 3A 31 32 3A 31
+0A 27 0A 11 72 6F 75 74 65 72 32 2E 63 69 73 63 6F 2E 63 6F 6D
+12 12 32 30 30 31 3A 64 62 38 3A 3A 31 32 33 3A 31 32 3A 32
+0A 27 0A 11 72 6F 75 74 65 72 33 2E 63 69 73 63 6F 2E 63 6F 6D
+12 12 32 30 30 31 3A 64 62 38 3A 3A 31 32 33 3A 33 33 3A 33
+0A 27 0A 11 72 6F 75 74 65 72 34 2E 63 69 73 63 6F 2E 63 6F 6D
+12 12 32 30 30 31 3A 64 62 38 3A 3A 31 32 33 3A 34 34 3A 34
+```
+
+Considering the definitions on the proto file ([devices.proto](devices.proto))
+
+```go
+message Router {
+  string hostname = 1;
+  bytes IP = 2; 
+}
+
+message Routers {
+  repeated Router router = 1;
+}
+```
+
+The first 40 bytes translate to:
+
+```hexdump
+Hex  Description
+0a  tag: router(1), field encoding: LENGTH_DELIMITED(2)
+26  "router".length(): 38
+0a  tag: hostname(1), field encoding: LENGTH_DELIMITED(2)
+10  "hostname".length(): 16 
+72 'r'
+6F 'o'
+75 'u'
+74 't'
+65 'e'
+72 'r'
+2E '.'
+63 'c'
+69 'i'
+73 's'
+63 'c'
+6F 'o'
+2E '.'
+63 'c'
+6F 'o'
+6D 'm'
+12 tag: IP(2), field encoding: LENGTH_DELIMITED(2)
+12 "IP".length(): 18
+32 '2'
+30 '0'
+30 '0'
+31 '1'
+...
+31 '1'
+```
+
+Its equivalent in JSON would be something like this ([routers.json](routers.json)):
+
+```json
+{
+  "Router": [
+    {
+      "Hostname": "router.cisco.com",
+      "IP": "2001:db8::123:12:1"
+    }
+  ]
+}
+```
+
+
 ## Compiling the code
 
 * gRPC client: `go build -o client gclient/main.go`
@@ -107,13 +194,13 @@ case 5:
 ```
 * SaveAll looks like this, the client prints the devices it wants to add and the server prints the new complete list.
 
-```bash
+```console
 $ ./client -o 5
 hostname:"router8.cisco.com" IP:"2001:db8::888:88:8" 
 hostname:"router9.cisco.com" IP:"2001:db8::999:99:9" 
 ```
 
-```bash
+```console
 $ ./server
 2017/04/29 20:27:35 Starting server on port :50051
 hostname:"router1.cisco.com" IP:"2001:db8::111:11:1" 
@@ -127,7 +214,7 @@ hostname:"router9.cisco.com" IP:"2001:db8::999:99:9"
 
 This is optional in order to generate secure connections. We create a new private key 'key.pem' and a server certificate 'cert.pem'
 
-```bash
+```console
 $ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes -subj '/CN=localhost'
 Generating a 4096 bit RSA private key
 ................................++
