@@ -110,7 +110,7 @@ After grouping the output for convenience, we get something like:
 
 Considering the definitions on the proto file ([devices.proto](devices.proto))
 
-```go
+```proto
 message Router {
   string hostname = 1;
   bytes IP = 2; 
@@ -121,9 +121,9 @@ message Routers {
 }
 ```
 
-The first 40 bytes translate to:
+Protobuf uses [Varint](https://developers.google.com/protocol-buffers/docs/encoding#varints) to serialize integers. The last three bits of the number store the wire type. Having this in mind and how to convert Hex to ASCII, the first 40 bytes (or two rows from the output) translate to:
 
-```hexdump
+```bash
 Hex  Description
 0a  tag: router(1), field encoding: LENGTH_DELIMITED(2)
 26  "router".length(): 38
@@ -167,7 +167,6 @@ Its equivalent in JSON would be something like this ([routers.json](routers.json
   ]
 }
 ```
-
 
 ## Compiling the code
 
