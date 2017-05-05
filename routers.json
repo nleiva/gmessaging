@@ -1,0 +1,20 @@
+{
+  "Router": [
+    {
+      "Hostname": "router.cisco.com",
+      "IP": "2001:db8::123:12:1"
+    },
+    {
+      "Hostname": "router2.cisco.com",
+      "IP": "2001:db8::123:12:2"
+    },
+    {
+      "Hostname": "router3.cisco.com",
+      "IP": "2001:db8::123:33:3"
+    },
+    {
+      "Hostname": "router4.cisco.com",
+      "IP": "2001:db8::123:44:4"
+    }
+  ]
+}

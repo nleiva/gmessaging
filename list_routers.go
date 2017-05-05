@@ -5,7 +5,6 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
-	//"net"
 	"os"
 
 	"github.com/golang/protobuf/proto"
