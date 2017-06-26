@@ -171,10 +171,16 @@ Its equivalent in JSON would be something like this ([routers.json](routers.json
 
 ## Understanding Go proto code
 
-Marshal takes the protocol buffer and encodes it into the wire format, returning the data.
+[Marshal](https://godoc.org/github.com/golang/protobuf/proto#Marshal) takes the protocol buffer and encodes it into the wire format, returning the data.
 
 ```go
 func Marshal(pb Message) ([]byte, error)
+```
+
+[Unmarshal](https://godoc.org/github.com/golang/protobuf/proto#Unmarshal) parses the protocol buffer representation in buf and places the decoded result in pb
+
+```go
+func Unmarshal(buf []byte, pb Message) error
 ```
 
 [Message](https://github.com/golang/protobuf/blob/master/proto/lib.go#L277) is implemented by generated protocol buffer messages.
@@ -187,7 +193,7 @@ type Message interface {
 }
 ```
 
-In our example [devices.pb.go](gproto/devices.pb.go) [Router](gproto/devices.pb.go#L42) and [Routers](gproto/devices.pb.go#L66) structs are defined
+In our example generated code [devices.pb.go](gproto/devices.pb.go), [Router](gproto/devices.pb.go#L42) and [Routers](gproto/devices.pb.go#L66) structs are defined
 
 ```go
 type Router struct {
