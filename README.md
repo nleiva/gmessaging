@@ -8,6 +8,7 @@ GPB and gRPC testing. Based on the [protobuf examples](https://github.com/google
   * [Code Examples](#code-examples)
   * [Compiling your protocol buffers](#compiling-your-protocol-buffers)
   * [Understanding GPB encoding](#understanding-gpb-encoding)
+  * [Understanding Go proto code](#understanding-go-proto-code)
   * [Compiling the code](#compiling-the-code)
   * [Running some examples](#running-some-examples)
   * [Generating Server Certificate and Private Key](#generating-server-certificate-and-private-key)
@@ -166,6 +167,53 @@ Its equivalent in JSON would be something like this ([routers.json](routers.json
     }
   ]
 }
+```
+
+## Understanding Go proto code
+
+Marshal takes the protocol buffer and encodes it into the wire format, returning the data.
+
+```go
+func Marshal(pb Message) ([]byte, error)
+```
+
+[Message](https://github.com/golang/protobuf/blob/master/proto/lib.go#L277) is implemented by generated protocol buffer messages.
+
+```go
+type Message interface {
+    Reset()
+    String() string
+    ProtoMessage()
+}
+```
+
+In our example [devices.pb.go](gproto/devices.pb.go) [Router](gproto/devices.pb.go#L42) and [Routers](gproto/devices.pb.go#L66) structs are defined
+
+```go
+type Router struct {
+	Hostname string `protobuf:"bytes,1,opt,name=hostname" json:"hostname,omitempty"`
+	IP       []byte `protobuf:"bytes,2,opt,name=IP,proto3" json:"IP,omitempty"`
+}
+```
+
+```go
+type Routers struct {
+	Router []*Router `protobuf:"bytes,1,rep,name=router" json:"router,omitempty"`
+}
+```
+
+Both implement the [Message](https://github.com/golang/protobuf/blob/master/proto/lib.go#L277) interface
+
+```go
+func (m *Router) Reset()                    { *m = Router{} }
+func (m *Router) String() string            { return proto.CompactTextString(m) }
+func (*Router) ProtoMessage()               {}
+```
+
+```go
+func (m *Routers) Reset()                    { *m = Routers{} }
+func (m *Routers) String() string            { return proto.CompactTextString(m) }
+func (*Routers) ProtoMessage()               {}
 ```
 
 ## Compiling the code
