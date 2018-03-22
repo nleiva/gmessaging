@@ -28,6 +28,44 @@ GPB and gRPC testing. Based on the [protobuf examples](https://github.com/google
 	routers.Router = append(routers.Router, router)
 ```
 
+If we inspect [routers.data](routers.data).
+
+```bash
+$ hexdump -c routers.data
+0000000  \n   &  \n 020   r   o   u   t   e   r   .   c   i   s   c   o
+0000010   .   c   o   m 022 022   2   0   0   1   :   d   b   8   :   :
+0000020   1   2   3   :   1   2   :   1  \n   '  \n 021   r   o   u   t
+0000030   e   r   2   .   c   i   s   c   o   .   c   o   m 022 022   2
+0000040   0   0   1   :   d   b   8   :   :   1   2   3   :   1   2   :
+0000050   2  \n   '  \n 021   r   o   u   t   e   r   3   .   c   i   s
+0000060   c   o   .   c   o   m 022 022   2   0   0   1   :   d   b   8
+0000070   :   :   1   2   3   :   3   3   :   3  \n   '  \n 021   r   o
+0000080   u   t   e   r   4   .   c   i   s   c   o   .   c   o   m 022
+0000090 022   2   0   0   1   :   d   b   8   :   :   1   2   3   :   4
+00000a0   4   :   4
+00000a3
+```
+
+```bash
+$ cat routers.data | protoc --decode_raw
+1 {
+  1: "router.cisco.com"
+  2: "2001:db8::123:12:1"
+}
+1 {
+  1: "router2.cisco.com"
+  2: "2001:db8::123:12:2"
+}
+1 {
+  1: "router3.cisco.com"
+  2: "2001:db8::123:33:3"
+}
+1 {
+  1: "router4.cisco.com"
+  2: "2001:db8::123:44:4"
+}
+```
+
 * [list_router.go](list_router.go) reads [routers.data](routers.data) and prints it out.
 
 ```go
