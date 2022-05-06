@@ -306,13 +306,9 @@ hostname:"router9.cisco.com" IP:"2001:db8::999:99:9"
 This is optional in order to generate secure connections. We create a new private key 'key.pem' and a server certificate 'cert.pem'
 
 ```console
-$ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes -subj '/CN=localhost'
-Generating a 4096 bit RSA private key
-................................++
-.....................................................++
-writing new private key to 'key.pem'
------
-$ 
+$ openssl req -new -x509 -nodes -subj '/C=US/CN=localhost' \
+                  -addext "subjectAltName = DNS:localhost" \
+                  -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365
 ```
 
 ## Links
