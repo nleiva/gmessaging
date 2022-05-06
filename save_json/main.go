@@ -27,7 +27,7 @@ func prettyprint(b []byte) ([]byte, error) {
 // Main reads the entire routers list from a file and creates a JSON output
 func main() {
 	//File to read data from
-	fname := "routers.data"
+	fname := "../routers.data"
 
 	// Read the existing router list.
 	in, err := ioutil.ReadFile(fname)

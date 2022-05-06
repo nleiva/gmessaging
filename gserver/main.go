@@ -10,9 +10,9 @@ import (
 	"io"
 	"log"
 	"net"
+	"context"
 
 	pb "github.com/nleiva/gmessaging/gproto"
-	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/metadata"
@@ -35,7 +35,7 @@ type server struct{}
 
 func (s *server) GetByHostname(ctx context.Context,
 	in *pb.GetByHostnameRequest) (*pb.RouterResponse, error) {
-	if md, ok := metadata.FromContext(ctx); ok {
+	if md, ok := metadata.FromIncomingContext(ctx); ok {
 		fmt.Printf("Metadata reveived: %v\n", md)
 	}
 	for _, r := range routers1 {
@@ -44,7 +44,7 @@ func (s *server) GetByHostname(ctx context.Context,
 		}
 
 	}
-	return nil, errors.New("Router not found")
+	return nil, errors.New("router not found")
 }
 
 func (s *server) GetAll(in *pb.GetAllRequest,

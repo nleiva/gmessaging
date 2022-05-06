@@ -26,7 +26,7 @@ func listRouters(w io.Writer, routers *pb.Routers) {
 // information inside.
 func main() {
 	//File to read data from
-	fname := "routers.data"
+	fname := "../routers.data"
 
 	// Read the existing router list.
 	in, err := ioutil.ReadFile(fname)

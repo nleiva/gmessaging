@@ -9,9 +9,9 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"context"
 
 	pb "github.com/nleiva/gmessaging/gproto"
-	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/metadata"
@@ -141,6 +141,6 @@ func SendMetadata(client pb.DeviceServiceClient) {
 	md["user"] = []string{"nleiva"}
 	md["password"] = []string{"password"}
 	ctx := context.Background()
-	ctx = metadata.NewContext(ctx, md)
+	ctx = metadata.NewOutgoingContext(ctx, md)
 	client.GetByHostname(ctx, &pb.GetByHostnameRequest{})
 }
